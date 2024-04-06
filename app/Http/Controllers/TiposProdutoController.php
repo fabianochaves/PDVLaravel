@@ -25,6 +25,18 @@ class TiposProdutoController extends Controller
         return view('cadastroTipos', ['msg_status' => $msg]);
     }
 
+    public function indexViewConsulta(Request $request){
+
+        $tiposProdutos = Tipos::all();
+        return view('consultaTipos', compact('tiposProdutos'));
+    }
+
+    public function listarTipos()
+    {
+        $tipos = Tipos::all();
+        return $tipos;
+    }
+    
     public function cadastrar(Request $request){
         $regras = [
             "nome_tipo_produto" => 'required',

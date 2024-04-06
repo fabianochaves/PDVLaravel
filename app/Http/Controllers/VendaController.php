@@ -59,7 +59,13 @@ class VendaController extends Controller
     {
         
         $itensVenda = ItensVenda::with('produto')->where('cod_venda', $idVenda)->orderBy('id_item_venda', 'DESC')->get();
+        foreach ($itensVenda as $item) {
+            $item->valor_unitario_venda = number_format($item->valor_unitario_venda, 2, ',', '.');
+            $item->imposto_produto_venda = number_format($item->imposto_produto_venda, 2, ',', '.');
+            $item->total_produto_venda = number_format($item->total_produto_venda, 2, ',', '.');
+            $item->total_imposto_venda = number_format($item->total_imposto_venda, 2, ',', '.');
         
+        }
         return response()->json($itensVenda);
     }
     
@@ -73,6 +79,36 @@ class VendaController extends Controller
         }
 
         return $produtos;
+    }
+
+    public function finalizarVenda(Request $request)
+    {
+        $id_venda = $request->get('id_venda');
+        $venda = Venda::find($id_venda);
+        if ($venda) {
+            $venda->status_venda = 1;
+            $venda->save();
+        }
+
+        $itensVenda = ItensVenda::where('cod_venda', $id_venda)->get();
+        foreach ($itensVenda as $item) {
+            $item->status_item_venda = 1;
+            $item->save();
+        }
+       
+        return response()->json(['message' => 'Venda Finalizada com Sucesso', 'id_venda' => $id_venda]);
+    }
+    public function deletarItem(Request $request)
+    {
+        $id_item_venda = $request->get('id_item_venda');
+        $item = ItensVenda::find($id_item_venda);
+    
+        if (!$item) {
+            return response()->json(['error' => 'Item não encontrado'], 404);
+        }
+    
+        $item->delete();
+        return response()->json(['message' => 'Item deletado com sucesso', 'id_item_venda' => $id_item_venda]);
     }
 
     public function cadastrar(Request $request)
@@ -101,7 +137,7 @@ class VendaController extends Controller
             $novaVenda = new Venda();
             $novaVenda->datetime_venda = now();
             $novaVenda->valor_total_venda = $valor_total_produto;
-            $novaVenda->status_venda = 1;
+            $novaVenda->status_venda = 0;
             $novaVenda->save();
 
             $idVenda = $novaVenda->getKey();
@@ -114,7 +150,7 @@ class VendaController extends Controller
             $itemVenda->imposto_produto_venda = $percent_imposto;
             $itemVenda->total_produto_venda = $valor_total_produto;
             $itemVenda->total_imposto_venda = 0;
-            $itemVenda->status_item_venda = 1;
+            $itemVenda->status_item_venda = 0;
             $itemVenda->save();
 
            
@@ -133,7 +169,7 @@ class VendaController extends Controller
             $itemVenda->imposto_produto_venda = $percent_imposto;
             $itemVenda->total_produto_venda = $valor_total_produto;
             $itemVenda->total_imposto_venda = 0; // Inicializa o valor total do imposto como 0
-            $itemVenda->status_item_venda = 1; // Define o status do item da venda como 1
+            $itemVenda->status_item_venda = 0; // Define o status do item da venda como 1
             $itemVenda->save();
 
             $venda = Venda::find($idVenda);

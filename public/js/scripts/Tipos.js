@@ -96,26 +96,29 @@ vm = new Vue({
         },
 
         listar() {
-            var classe = "Tipos";
-            var funcao = "listar";
 
-            jQuery.ajax({
-                type: "POST",
-                url: urlBackEnd + "index.php",
-                data: { classe: classe, funcao: funcao },
-                success: function(data) {
-
-                    data.forEach(function(tipo) {
-                        tipo.status_tipo_produto = tipo.status_tipo_produto == 1 ? "Ativo" : "Inativo";
-                        tipo.status_css = tipo.status_tipo_produto == "Ativo" ? "ativo" : "inativo";
-                    });
-
-                    vm.tiposProdutos = data;
-                    setTimeout(() => {
-                        $('#dataTable').DataTable();
-
-                    }, 500);
+            fetch(`/listarTipos`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao obter os Tipos de Produtos.');
                 }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data)
+                data.forEach(function(tipo) {
+                    tipo.status_tipo_produto = tipo.status_tipo_produto == 1 ? "Ativo" : "Inativo";
+                    tipo.status_css = tipo.status_tipo_produto == "Ativo" ? "ativo" : "inativo";
+                });
+
+                vm.tiposProdutos = data;
+                setTimeout(() => {
+                    $('#dataTable').DataTable();
+
+                }, 500);
+            })
+            .catch(error => {
+                console.error(error);
             });
         },
 

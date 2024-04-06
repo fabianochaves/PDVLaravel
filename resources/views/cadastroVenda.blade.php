@@ -5,7 +5,7 @@
 @extends('layout.basico')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-@section('titulo', 'Tipos de Produtos')
+@section('titulo', 'Cadastro de Venda')
 
 @section('conteudo')
 
@@ -66,6 +66,27 @@
                                         </div>
                                     </div>
                                 </form>
+
+                                <div class="form-row m-0 font-weight-bold text-primary" >
+                                    <div class="col-md-12">
+                                        <span class="total-container">
+                                            <span class="total-label">Total Venda:</span>
+                                            <span class="total-valor-venda">R$  @{{ calcularTotalVenda() }}</span>
+                                        </span>
+                                    {{-- </div>
+                                    <div class="col-md-3">
+                                        <span class="total-container">
+                                            <span class="total-label">Total Imposto:</span>
+                                            <span class="total-valor-imposto">R$ 0,00</span>
+                                        </span>
+                                    </div> --}}
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-12 container-btn-finalizar">
+                                        
+                                    </div>
+                                </div>
+                                <br>
                             </div>                            
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -78,26 +99,14 @@
                                                 <th>Quantidade</th>
                                                 <th>Valor Unitário</th>
                                                 <th>% Imposto</th>
-                                                <th>Valor Total Imposto (R$)</th>
+                                                {{-- <th>Valor Total Imposto (R$)</th> --}}
                                                 <th>Valor Total Produto (R$)</th>
                                             </tr>
                                         </thead>
-                                        <tfoot>
-                                            <tr>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th>Totais</th>
-                                                <th></th>
-                                                <th></th>
-                                                <th class="total-valor-imposto">R$ 0,00</th>
-                                                <th class="total-valor-venda">R$ 0,00</th>
-                                            </tr>
-                                        </tfoot>
                                         <tbody>
                                             <tr v-for="(item, index) in itens" :key="index">
                                                 <td> 
-                                                    <a href="#" class="btn btn-danger btn-circle excluirItem" @click="removerItem(index)" :data-index="index">
+                                                    <a href="#" class="btn btn-danger btn-circle excluirItem" @click="removerItem(item.id_item_venda)" :data-index="index">
                                                         <i class="fas fa-trash"></i>
                                                     </a>
                                                 </td>
@@ -106,39 +115,30 @@
                                                 <td>@{{ item.qtd_produto_venda }}</td>
                                                 <td>@{{ item.valor_unitario_venda }}</td>
                                                 <td>@{{ item.imposto_produto_venda }}%</td>
-                                                <td>@{{ item.total_imposto_venda }}</td>
+                                                {{-- <td>@{{ item.total_imposto_venda }}</td> --}}
                                                 <td>@{{ item.total_produto_venda }}</td>
                                             </tr>
                                         </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th>Totais</th>
+                                                <th></th>
+                                                <th></th>
+                                                {{-- <th class="total-valor-imposto">R$ 0,00</th> --}}
+                                                <th class="total-valor-venda">R$ @{{ calcularTotalVenda() }}</th>
+                                            </tr>
+                                        </tfoot>
                                         
                                     </table>
                                 </div>
-
-                                <div class="form-row m-0 font-weight-bold text-primary" >
-                                    <div class="col-md-3">
-                                        <span class="total-container">
-                                            <span class="total-label">Total Venda:</span>
-                                            <span class="total-valor-venda">R$ 0,00</span>
-                                        </span>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <span class="total-container">
-                                            <span class="total-label">Total Imposto:</span>
-                                            <span class="total-valor-imposto">R$ 0,00</span>
-                                        </span>
-                                    </div>
                                 
-
-                                    <div class="col-4 text-right">
-                                        <div class="container-btn-finalizar">
-                                            <!-- Conteúdo do container-btn-finalizar -->
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
+                                
                             </div>
                         </div>
-
+                        
                     </div>
                     <!-- /.container-fluid -->
                 </div>

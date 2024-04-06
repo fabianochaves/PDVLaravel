@@ -79,13 +79,39 @@
 
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
+        <style>
+            .ativo {
+                color: green;
+                font-weight: bold;
+            }
+    
+            .inativo {
+                color: red;
+                font-weight: bold;
+            }
+    
+            .acao-botoes {
+                width: 1%;
+                white-space: nowrap;
+            }
+    
+            .acao-botoes button {
+                margin-right: 5px;
+            }
+    
+        </style>
+
         
         <!-- JS da Tela -->
         <script src="js/config.js?v=<?=time();?>"></script>
 
         <script>
             window.routes = {
-                cadastrarVenda: '{{ route("cadastrarVenda") }}'
+                cadastrarVenda: '{{ route("cadastrarVenda") }}',
+                deletarItemVenda: '{{ route("deletarItemVenda") }}',
+                finalizarVenda: '{{ route("finalizarVenda") }}',
+                listarTipos: '{{ route("listarTipos") }}'
+
             };
         </script>
         

@@ -23,6 +23,8 @@ Route::middleware(AutenticacaoMiddleware::class)->get('/cadastroTipos/{erro?}', 
 Route::middleware(AutenticacaoMiddleware::class)->get('/cadastroProduto/{erro?}', 'ProdutoController@indexViewCadastro')->name('cadastroProdutos');
 Route::middleware(AutenticacaoMiddleware::class)->get('/cadastroVenda/{erro?}', 'VendaController@indexViewCadastro')->name('cadastroVenda');
 Route::middleware(AutenticacaoMiddleware::class)->get('/venda/itens', 'VendaController@listarItens')->name('itensVenda');
+Route::middleware(AutenticacaoMiddleware::class)->get('/consultaTipos', 'TiposProdutoController@indexViewConsulta')->name('consultaTipos');
+Route::middleware(AutenticacaoMiddleware::class)->get('/listarTipos', 'TiposProdutoController@listarTipos')->name('listarTipos');
 
 Route::get('/venda/itens/{idVenda}', 'VendaController@listarItens')->name('itensVenda');
 
@@ -33,5 +35,7 @@ Route::post('/cadastrarProduto', 'ProdutoController@cadastrar')->name('cadastrar
 
 Route::post('/obter-precos', 'VendaController@obterPrecos')->name('obterPrecos');
 Route::post('/cadastrarVenda', 'VendaController@cadastrar')->name('cadastrarVenda');
+Route::post('/deletarItemVenda', 'VendaController@deletarItem')->name('deletarItemVenda');
+Route::post('/finalizarVenda', 'VendaController@finalizarVenda')->name('finalizarVenda');
 
 
