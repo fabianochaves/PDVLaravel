@@ -1,6 +1,6 @@
 // configurações gerais
 
-var urlBackEnd = 'http://localhost:8001/'; // URL base para as chamadas no Ajax
+var urlBackEnd = 'back-end/'; // URL base para as chamadas no Ajax
 
 function alerta(icon, title, msg, redirect, reload) {
     Swal.fire({

@@ -1,14 +1,91 @@
+const urlObterPrecos = document.getElementById('app').dataset.obterPrecos;
+
 vm = new Vue({
     el: '#app',
     data: {
         itens: [],
         Vendas: [],
         loading: false,
+        produtoSelecionado: '',
+        quantidade: '',
+        precoUnitario: '',
+        percentImposto: '',
+        valorTotal: '',
+        urlObterPrecos: urlObterPrecos
     },
     mounted() {
+        console.log("Teste" + this.itens);
         this.listar();
     },
     methods: {
+
+        verificarItensGrid: function () {
+
+            var tabelaItensVenda = document.getElementById('tabela_itens_venda');
+            var linhas = tabelaItensVenda.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+
+            if (linhas.length === 0) {
+                var tabelaVazia = 1;
+            } else {
+                var tabelaVazia = 0;
+            }
+
+            var form = new FormData(); // Cria um novo FormData
+            form.append('tabela_vazia', tabelaVazia);
+            form.append('produto', this.produtoSelecionado);
+            form.append('quantidade', this.quantidade);
+            form.append('valor_unitario', this.precoUnitario);
+            form.append('percent_imposto', this.percentImposto);
+            form.append('valor_total_produto', this.valorTotal);
+
+            this.enviarItemVenda(form);
+        },
+
+        enviarItemVenda: function (form) {
+
+            fetch(window.routes.cadastrarVenda, {
+                method: 'POST',
+                body: form,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao enviar dados para o controlador.');
+                }
+                return response.json();
+            })
+            .then(data => {
+
+                this.listar(data.id_venda);
+                console.log(data); // Exibe a resposta do controlador
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        },
+        
+        
+        obterPrecos: function() {
+            axios.post(this.urlObterPrecos, {
+                    produto_id: this.produtoSelecionado,
+                    quantidade: this.quantidade,
+                }, {
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                })
+                .then(response => {
+                    this.precoUnitario = response.data.preco_unitario;
+                    this.percentImposto = response.data.imposto;
+                    this.valorTotal = response.data.valor_total;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+        
 
         formatarData(datetime) {
             const data = new Date(datetime);
@@ -97,39 +174,28 @@ vm = new Vue({
             });
         },
 
-        listar() {
-            var classe = "Venda";
-            var funcao = "listar";
-            var parametros = {
-                is_ativo: 1
-            };
+        listar(idVenda) {
+         
+            // Obter os itens da venda específica
+            fetch(`/venda/itens/${idVenda}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao obter os itens da venda.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    this.produtoSelecionado = '';
+                    this.quantidade = '';
+                    this.precoUnitario = '';
+                    this.percentImposto = '';
+                    this.valorTotal = '';
+                    this.itens = data;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
 
-            jQuery.ajax({
-                type: "POST",
-                url: urlBackEnd + "index.php",
-                data: { classe: classe, funcao: funcao, is_ativo: parametros },
-                success: function(data) {
-                    vm.Vendas = data;
-                    let totalVendas = 0;
-                    let totalImposto = 0;
-                    data.forEach((venda) => {
-                        totalVendas += parseFloat(venda.valor_total_venda);
-                        totalImposto += parseFloat(venda.valor_imposto_venda);
-                    });
-                    const totalLiquido = totalVendas - totalImposto;
-
-                    document.getElementById("totalVendas").textContent = vm.formatarNumero(totalVendas);
-                    document.getElementById("totalImposto").textContent = vm.formatarNumero(totalImposto);
-                    document.getElementById("totalLiquido").textContent = vm.formatarNumero(totalLiquido);
-
-
-
-                    setTimeout(() => {
-                        $('#dataTable').DataTable();
-
-                    }, 500);
-                }
-            });
         },
 
         finalizarVenda() {
@@ -311,6 +377,7 @@ vm = new Vue({
         },
 
         async abrirNovoItem() {
+            
             try {
                 jQuery.ajax({
                     type: "POST",
@@ -411,5 +478,10 @@ vm = new Vue({
                 });
             });
         },
+    },
+    watch: {
+
+        produtoSelecionado: 'obterPrecos',
+        quantidade: 'obterPrecos'
     }
 });

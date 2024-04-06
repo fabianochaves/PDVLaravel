@@ -8,6 +8,8 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
+
+
         <title>Sistema de Vendas - @yield('titulo')</title>
 
         <!-- Custom fonts for this template-->
@@ -18,10 +20,35 @@
         <link rel="stylesheet" href="{{ asset('css/sb-admin-2.min.css') }}">
 
         <style>
+        .error-container {
+            display: flex;
+            justify-content: center; /* Centraliza horizontalmente */
+            align-items: center; /* Centraliza verticalmente */
+            height: 100%; /* Ajusta a altura conforme necessário */
+        }
         .error-message {
             color: red;
         }
+        .success_msg {
+            color: green; /* Define a cor do texto como verde */
+        }
+
         </style>
+
+    <link href="basicos/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <style>
+        .total-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .total-label {
+            font-weight: bold;
+        }
+    </style>
 
     </head>
 
@@ -46,9 +73,22 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
 
-        <!-- JS da Tela -->
-        <script src="{{ asset('js/config.js?v=<?=time();?>') }}"></script>
+        <!-- Page level plugins -->
+        <script src="basicos/datatables/jquery.dataTables.min.js"></script>
+        <script src="basicos/datatables/dataTables.bootstrap4.min.js"></script>
 
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+        
+        <!-- JS da Tela -->
+        <script src="js/config.js?v=<?=time();?>"></script>
+
+        <script>
+            window.routes = {
+                cadastrarVenda: '{{ route("cadastrarVenda") }}'
+            };
+        </script>
+        
         @yield('scripts')
 
 </html>

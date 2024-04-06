@@ -47,7 +47,7 @@ class LoginController extends Controller
             $_SESSION['perfil'] =  $user->perfil_usuario;
             $_SESSION['nome_sistema'] = "Sistema de Vendas";
 
-            return redirect()->route('app.home');
+            return redirect()->route('home');
 
         } else {
             return redirect()->route('viewLogin', ['error' => 1]);

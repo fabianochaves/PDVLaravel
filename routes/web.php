@@ -12,14 +12,26 @@ use App\Http\Middleware\AutenticacaoMiddleware;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/login/{erro?}', 'LoginController@index')->name('viewLogin');
-Route::post('/autenticar', 'LoginController@autenticar')->name('autenticar');
-
-Route::middleware(AutenticacaoMiddleware::class)->get('/home', 'HomeController@index')->name('app.home');
-Route::middleware(AutenticacaoMiddleware::class)->get('/tipos', 'TiposController@index')->name('app.tipos');
-
-
 Route::get('/', function () {
     return view('login');
 });
+
+Route::get('/login/{erro?}', 'LoginController@index')->name('viewLogin');
+
+Route::middleware(AutenticacaoMiddleware::class)->get('/home', 'HomeController@index')->name('home');
+Route::middleware(AutenticacaoMiddleware::class)->get('/cadastroTipos/{erro?}', 'TiposProdutoController@indexViewCadastro')->name('cadastroTipos');
+Route::middleware(AutenticacaoMiddleware::class)->get('/cadastroProduto/{erro?}', 'ProdutoController@indexViewCadastro')->name('cadastroProdutos');
+Route::middleware(AutenticacaoMiddleware::class)->get('/cadastroVenda/{erro?}', 'VendaController@indexViewCadastro')->name('cadastroVenda');
+Route::middleware(AutenticacaoMiddleware::class)->get('/venda/itens', 'VendaController@listarItens')->name('itensVenda');
+
+Route::get('/venda/itens/{idVenda}', 'VendaController@listarItens')->name('itensVenda');
+
+
+Route::post('/autenticar', 'LoginController@autenticar')->name('autenticar');
+Route::post('/cadastrarTipo', 'TiposProdutoController@cadastrar')->name('cadastrarTipo');
+Route::post('/cadastrarProduto', 'ProdutoController@cadastrar')->name('cadastrarProduto');
+
+Route::post('/obter-precos', 'VendaController@obterPrecos')->name('obterPrecos');
+Route::post('/cadastrarVenda', 'VendaController@cadastrar')->name('cadastrarVenda');
+
+

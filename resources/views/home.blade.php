@@ -1,6 +1,6 @@
 @extends('layout.basico')
 
-@section('titulo', 'Login')
+@section('titulo', 'Home')
 
 @section('conteudo')
 <body id="page-top">
