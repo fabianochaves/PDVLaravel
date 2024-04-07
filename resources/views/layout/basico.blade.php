@@ -110,6 +110,8 @@
                 cadastrarVenda: '{{ route("cadastrarVenda") }}',
                 deletarItemVenda: '{{ route("deletarItemVenda") }}',
                 finalizarVenda: '{{ route("finalizarVenda") }}',
+                salvarEdicaoTipo: '{{ route("salvarEdicaoTipo") }}',
+                alterarStatusTipo: '{{ route("alterarStatusTipo") }}',
                 listarTipos: '{{ route("listarTipos") }}'
 
             };

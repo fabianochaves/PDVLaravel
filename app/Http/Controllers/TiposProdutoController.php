@@ -36,6 +36,47 @@ class TiposProdutoController extends Controller
         $tipos = Tipos::all();
         return $tipos;
     }
+
+    public function salvarEdicao(Request $request)
+    {
+        $id_tipo = $request->get('id_tipo_produto');
+        $novo_nome = $request->get('novo_nome');
+        $novo_imposto = $request->get('novo_imposto');
+        $novo_imposto = str_replace(".","", $novo_imposto);
+        $novo_imposto = str_replace(",",".", $novo_imposto);
+    
+        // Encontre o modelo pelo ID
+        $tipo = Tipos::findOrFail($id_tipo);
+    
+        // Atualize os campos desejados
+        $tipo->nome_tipo_produto = $novo_nome;
+        $tipo->imposto_tipo_produto = $novo_imposto;
+    
+        // Salve as mudanças no banco de dados
+        $tipo->save();
+    
+        // Retorne uma resposta de sucesso ou redirecione para outra página
+        return response()->json(['message' => 'Tipo atualizado com sucesso', 'status' => 1]);
+    }
+
+    public function alterarStatus(Request $request)
+    {
+        $id_tipo = $request->get('id_tipo_produto');
+        $novo_status = $request->get('novo_status');
+    
+        // Encontre o modelo pelo ID
+        $tipo = Tipos::findOrFail($id_tipo);
+    
+        // Atualize os campos desejados
+        $tipo->status_tipo_produto = $novo_status;
+    
+        // Salve as mudanças no banco de dados
+        $tipo->save();
+    
+        // Retorne uma resposta de sucesso ou redirecione para outra página
+        return response()->json(['message' => 'Status atualizado com sucesso', 'status' => 1]);
+    }
+    
     
     public function cadastrar(Request $request){
         $regras = [

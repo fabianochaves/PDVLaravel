@@ -71,28 +71,37 @@ vm = new Vue({
         },
 
         salvarAlteracoes(idTipoProduto, novoNome, novoImposto) {
-            var classe = "Tipos";
-            var funcao = "editar";
 
-
-            jQuery.ajax({
-                type: "POST",
-                url: urlBackEnd + "index.php",
-                data: { classe: classe, funcao: funcao, id_tipo_produto: idTipoProduto, novo_nome: novoNome, novo_imposto: novoImposto },
-                success: function(response) {
-
-                    if (response.status === 1) {
-                        Swal.fire('Sucesso', 'As alterações foram salvas com sucesso!', 'success');
-                        vm.listar()
-                    } else {
-                        Swal.fire('Erro', 'Ocorreu um erro ao salvar as alterações.', 'error');
-                    }
-                },
-                error: function(error) {
-                    console.error("Erro ao editar tipo: " + error);
+            var form = new FormData();
+            form.append('id_tipo_produto', idTipoProduto);
+            form.append('novo_nome', novoNome);
+            form.append('novo_imposto', novoImposto);
+         
+            fetch(window.routes.salvarEdicaoTipo, {
+                method: 'POST',
+                body: form,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao enviar dados para o controlador.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.status === 1) {
+                    Swal.fire('Sucesso', 'As alterações foram salvas com sucesso!', 'success');
+                    vm.listar()
+                } else {
                     Swal.fire('Erro', 'Ocorreu um erro ao salvar as alterações.', 'error');
                 }
+            })
+            .catch(error => {
+                console.error(error);
             });
+          
         },
 
         listar() {
@@ -123,7 +132,7 @@ vm = new Vue({
         },
 
         status(tipo) {
-            let novoStatus = tipo.status_tipo_produto === "Ativo" ? "Inativo" : "Ativo";
+            let novoStatus = tipo.status_tipo_produto === "Ativo" ? 0 : 1;
             let acao = tipo.status_tipo_produto === "Ativo" ? "inativar" : "ativar";
 
             Swal.fire({
@@ -141,61 +150,41 @@ vm = new Vue({
         },
 
         processarAlteracaoStatus(tipo, novo_status) {
-            const id_tipo_produto = tipo.id_tipo_produto;
-            const classe = "Tipos";
-            const funcao = "alterarStatus";
-
-            const data = {
-                classe: classe,
-                funcao: funcao,
-                id_tipo_produto: id_tipo_produto,
-                novo_status: novo_status
-            };
-
+   
             this.loading = true;
 
-            jQuery.ajax({
-                type: "POST",
-                url: urlBackEnd + "index.php",
-                data: data,
-                success: () => {
-                    this.listar();
-                    this.loading = false;
-                },
-                error: (error) => {
-                    console.error("Erro ao alterar status: " + error);
-                    this.loading = false;
+            var form = new FormData();
+            form.append('id_tipo_produto', tipo.id_tipo_produto);
+            form.append('novo_status', novo_status);
+         
+            fetch(window.routes.alterarStatusTipo, {
+                method: 'POST',
+                body: form,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao enviar dados para o controlador.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.status === 1) {
+                    Swal.fire('Sucesso', 'As alterações foram salvas com sucesso!', 'success');
+                    vm.listar()
+                } else {
+                    Swal.fire('Erro', 'Ocorreu um erro ao salvar as alterações.', 'error');
+                }
+                this.listar();
+                this.loading = false;
+            })
+            .catch(error => {
+                console.error(error);
             });
-        },
 
-        cadastrar() {
-            this.imposto_tipo_produto = $("#imposto_tipo_produto").val();
-            if (this.nome_tipo_produto == "" || this.imposto_tipo_produto == "") {
-                alerta("warning", "Atenção", "Preencha todos os Campos!", "");
-                return false
-            } else {
-                var classe = "Tipos";
-                var funcao = "cadastrar";
 
-                jQuery.ajax({
-                    type: "POST",
-                    url: urlBackEnd + "index.php",
-                    data: { classe: classe, funcao: funcao, nome_tipo_produto: this.nome_tipo_produto, imposto_tipo_produto: this.imposto_tipo_produto },
-                    success: function(data) {
-                        if (data.status == 1) {
-                            alerta("success", "Sucesso!", data.message, "", 1);
-
-                        } else {
-                            alerta("error", "Atenção!", data.body, "", 0);
-                        }
-
-                        return false;
-                    }
-                });
-
-                return false;
-            }
         },
     }
 });

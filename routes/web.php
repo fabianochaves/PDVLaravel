@@ -37,5 +37,7 @@ Route::post('/obter-precos', 'VendaController@obterPrecos')->name('obterPrecos')
 Route::post('/cadastrarVenda', 'VendaController@cadastrar')->name('cadastrarVenda');
 Route::post('/deletarItemVenda', 'VendaController@deletarItem')->name('deletarItemVenda');
 Route::post('/finalizarVenda', 'VendaController@finalizarVenda')->name('finalizarVenda');
+Route::post('/salvarEdicaoTipo', 'TiposProdutoController@salvarEdicao')->name('salvarEdicaoTipo');
+Route::post('/alterarStatusTipo', 'TiposProdutoController@alterarStatus')->name('alterarStatusTipo');
 
 
