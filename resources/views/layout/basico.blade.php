@@ -141,9 +141,25 @@
                 dashboardVendasMes: '{{ route("dashboardVendasMes") }}',
                 dashboardVendasSemana: '{{ route("dashboardVendasSemana") }}',
                 dashboardVendasHoje: '{{ route("dashboardVendasHoje") }}',
-                dashboardVendasMesaMes: '{{ route("dashboardVendasMesaMes") }}'
+                dashboardVendasMesaMes: '{{ route("dashboardVendasMesaMes") }}',
+                logout: '{{ route("logout") }}'
 
             };
+
+            document.getElementById('logoutButton').addEventListener('click', function() {
+                swal.fire({
+                    title: 'Logout',
+                    text: 'Deseja realmente sair?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sim',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "{{ route('logout') }}";
+                    }
+                });
+            });
 
         </script>
         

@@ -162,8 +162,6 @@ vm = new Vue({
                         '<th>Quantidade</th>' +
                         '<th>Valor Unitário (R$)</th>' +
                         '<th>Total do Produto</th>' +
-                        '<th>% Imposto</th>' +
-                        '<th>Total de Imposto</th>' +
                         '</tr>' +
                         '</thead>' +
                         '<tbody>';
@@ -175,8 +173,6 @@ vm = new Vue({
                             '<td>' + item.qtd_produto_venda + '</td>' +
                             '<td>R$' + item.valor_unitario_venda + '</td>' +
                             '<td>R$' + item.total_produto_venda + '</td>' +
-                            '<td>' + item.imposto_produto_venda + '%</td>' +
-                            '<td>R$' + item.total_imposto_venda + '</td>' +
                             '</tr>';
                     });
 

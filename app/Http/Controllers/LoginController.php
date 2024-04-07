@@ -53,4 +53,12 @@ class LoginController extends Controller
             return redirect()->route('viewLogin', ['error' => 1]);
         }
     }
+
+    public function logout()
+    {
+        session_start();
+        session_destroy();
+
+        return redirect()->route('viewLogin'); // Redirecionar para a tela de login
+    }
 }
