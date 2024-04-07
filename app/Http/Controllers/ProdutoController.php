@@ -28,6 +28,18 @@ class ProdutoController extends Controller
         return view('cadastroProduto', ['msg_status' => $msg], compact('tipos'));
     }
 
+    public function indexViewConsulta(Request $request){
+
+        $produtos = Produtos::all();
+        return view('consultaProdutos', compact('produtos'));
+    }
+
+    public function listarProdutos()
+    {
+        $produtos = Produtos::all();
+        return $produtos;
+    }
+
     public function cadastrar(Request $request){
         
         $regras = [

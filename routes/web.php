@@ -24,6 +24,9 @@ Route::middleware(AutenticacaoMiddleware::class)->get('/cadastroProduto/{erro?}'
 Route::middleware(AutenticacaoMiddleware::class)->get('/cadastroVenda/{erro?}', 'VendaController@indexViewCadastro')->name('cadastroVenda');
 Route::middleware(AutenticacaoMiddleware::class)->get('/venda/itens', 'VendaController@listarItens')->name('itensVenda');
 Route::middleware(AutenticacaoMiddleware::class)->get('/consultaTipos', 'TiposProdutoController@indexViewConsulta')->name('consultaTipos');
+Route::middleware(AutenticacaoMiddleware::class)->get('/consultaProdutos', 'ProdutoController@indexViewConsulta')->name('consultaProdutos');
+
+
 Route::middleware(AutenticacaoMiddleware::class)->get('/listarTipos', 'TiposProdutoController@listarTipos')->name('listarTipos');
 
 Route::get('/venda/itens/{idVenda}', 'VendaController@listarItens')->name('itensVenda');
