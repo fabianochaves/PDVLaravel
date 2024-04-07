@@ -24,9 +24,15 @@ Route::middleware(AutenticacaoMiddleware::class)->get('/cadastroProduto/{erro?}'
 Route::middleware(AutenticacaoMiddleware::class)->get('/cadastroVenda/{erro?}', 'VendaController@indexViewCadastro')->name('cadastroVenda');
 Route::middleware(AutenticacaoMiddleware::class)->get('/consultaTipos', 'TiposProdutoController@indexViewConsulta')->name('consultaTipos');
 Route::middleware(AutenticacaoMiddleware::class)->get('/consultaProdutos', 'ProdutoController@indexViewConsulta')->name('consultaProdutos');
+Route::middleware(AutenticacaoMiddleware::class)->get('/consultaVendas', 'VendaController@indexViewConsulta')->name('consultaVendas');
 
 Route::middleware(AutenticacaoMiddleware::class)->get('/listarTipos', 'TiposProdutoController@listarTipos')->name('listarTipos');
 Route::middleware(AutenticacaoMiddleware::class)->get('/listarProdutos', 'ProdutoController@listarProdutos')->name('listarProdutos');
+Route::middleware(AutenticacaoMiddleware::class)->get('/listarVendas', 'VendaController@listarVendas')->name('listarVendas');
+Route::middleware(AutenticacaoMiddleware::class)->get('/dashboardVendasMes', 'DashboardController@buscaTotalVendasMes')->name('dashboardVendasMes');
+Route::middleware(AutenticacaoMiddleware::class)->get('/dashboardVendasSemana', 'DashboardController@buscaTotalVendasSemana')->name('dashboardVendasSemana');
+Route::middleware(AutenticacaoMiddleware::class)->get('/dashboardVendasHoje', 'DashboardController@buscaTotalVendasHoje')->name('dashboardVendasHoje');
+Route::middleware(AutenticacaoMiddleware::class)->get('/dashboardVendasMesaMes', 'DashboardController@buscaVendasMesAMes')->name('dashboardVendasMesaMes');
 Route::get('/venda/itens/{idVenda}', 'VendaController@listarItens')->name('itensVenda');
 
 

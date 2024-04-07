@@ -29,6 +29,12 @@ class VendaController extends Controller
         return view('cadastroVenda', ['msg_status' => $msg, 'produtos' => $produtos]);
     }
 
+    public function indexViewConsulta(Request $request){
+
+        $vendas = Venda::all();
+        return view('consultaVendas', compact('vendas'));
+    }
+
     public function obterPrecos(Request $request)
     {
         $produtoId = $request->produto_id;
@@ -55,6 +61,12 @@ class VendaController extends Controller
         }
     }
 
+    public function listarVendas()
+    {
+        $vendas = Venda::all();
+        return response()->json($vendas);
+    }
+
     public function listarItens($idVenda)
     {
         
@@ -66,6 +78,7 @@ class VendaController extends Controller
             $item->total_imposto_venda = number_format($item->total_imposto_venda, 2, ',', '.');
         
         }
+
         return response()->json($itensVenda);
     }
     

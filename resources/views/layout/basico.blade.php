@@ -98,6 +98,28 @@
             .acao-botoes button {
                 margin-right: 5px;
             }
+            .total-venda {
+            color: green;
+            font-weight: bold;
+        }
+
+        .total-imposto {
+            color: red;
+            font-weight: bold;
+        }
+
+        .total-liquido {
+            color: blue;
+            font-weight: bold;
+        }
+
+        .totals {
+            text-align: center;
+        }
+        .totais {
+            text-align: center;
+            margin-top: 20px; /* Espaço superior para centralizar na página */
+        }
     
         </style>
 
@@ -115,7 +137,12 @@
                 alterarStatusTipo: '{{ route("alterarStatusTipo") }}',
                 alterarStatusProduto: '{{ route("alterarStatusProduto") }}',
                 listarTipos: '{{ route("listarTipos") }}',
-                listarProdutos: '{{ route("listarProdutos") }}'
+                listarProdutos: '{{ route("listarProdutos") }}',
+                dashboardVendasMes: '{{ route("dashboardVendasMes") }}',
+                dashboardVendasSemana: '{{ route("dashboardVendasSemana") }}',
+                dashboardVendasHoje: '{{ route("dashboardVendasHoje") }}',
+                dashboardVendasMesaMes: '{{ route("dashboardVendasMesaMes") }}'
+
             };
 
         </script>

@@ -136,7 +136,7 @@
 
     @section('scripts')
 
-    <script src="js/basicos/chart.js/Chart.min.js"></script>
+    <script src="basicos/chart.js/Chart.min.js"></script>
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
     <script src="js/scripts/Dashboard.js?t=<?php echo time(); ?>"></script>

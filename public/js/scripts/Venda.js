@@ -15,6 +15,7 @@ vm = new Vue({
     },
     mounted() {
        
+        this.listarItensVenda();
         this.listar();
        
     },
@@ -74,7 +75,7 @@ vm = new Vue({
             })
             .then(data => {
 
-                this.listar(data.id_venda);
+                this.listarItensVenda(data.id_venda);
                 var finalizarVendaButton = document.querySelector('.btn-finalizar-venda');
                 if (!finalizarVendaButton) {
                     finalizarVendaButton = document.createElement('a');
@@ -141,7 +142,91 @@ vm = new Vue({
             return formatter.format(numero);
         },
 
-        listar(idVenda) {
+        verItens(venda) {
+
+            fetch(`/venda/itens/${venda.id_venda}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao obter os itens da venda.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                  
+                    var tableHTML = '<div class="table-responsive">' + // Adicione a classe table-responsive ao elemento pai
+                        '<table class="table table-bordered table-striped">' +
+                        '<thead>' +
+                        '<tr>' +
+                        '<th>ID</th>' +
+                        '<th>Nome</th>' +
+                        '<th>Quantidade</th>' +
+                        '<th>Valor Unitário (R$)</th>' +
+                        '<th>Total do Produto</th>' +
+                        '<th>% Imposto</th>' +
+                        '<th>Total de Imposto</th>' +
+                        '</tr>' +
+                        '</thead>' +
+                        '<tbody>';
+                    console.log(data)
+                    data.forEach(function(item) {
+                        tableHTML += '<tr>' +
+                            '<td>' + item.cod_produto_venda + '</td>' +
+                            '<td>' + item.produto.nome_produto + '</td>' +
+                            '<td>' + item.qtd_produto_venda + '</td>' +
+                            '<td>R$' + item.valor_unitario_venda + '</td>' +
+                            '<td>R$' + item.total_produto_venda + '</td>' +
+                            '<td>' + item.imposto_produto_venda + '%</td>' +
+                            '<td>R$' + item.total_imposto_venda + '</td>' +
+                            '</tr>';
+                    });
+
+                    tableHTML += '</tbody>' +
+                        '</table>' +
+                        '</div>';
+
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Itens da Venda',
+                        html: tableHTML,
+                        width: 1200,
+                    });
+                
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        },
+
+        listar() {
+
+            fetch(`/listarVendas`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao obter as Vendas.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    vm.Vendas = data;
+                    let totalVendas = 0;
+                    data.forEach((venda) => {
+                        totalVendas += parseFloat(venda.valor_total_venda);
+ 
+                    });
+
+                    document.getElementById("totalVendas").textContent = vm.formatarNumero(totalVendas);
+              
+                    setTimeout(() => {
+                        $('#dataTable').DataTable();
+                    }, 500);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        },
+
+        listarItensVenda(idVenda) {
             
             fetch(`/venda/itens/${idVenda}`)
                 .then(response => {
