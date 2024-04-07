@@ -109,7 +109,6 @@
     
     @section('scripts')
         <script src="js/scripts/Produtos.js?t=<?php echo time(); ?>"></script>
-
     @endsection('scripts')
 
     @if(isset($msg_status) && $msg_status != "")

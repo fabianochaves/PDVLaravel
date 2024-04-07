@@ -22,13 +22,11 @@ Route::middleware(AutenticacaoMiddleware::class)->get('/home', 'HomeController@i
 Route::middleware(AutenticacaoMiddleware::class)->get('/cadastroTipos/{erro?}', 'TiposProdutoController@indexViewCadastro')->name('cadastroTipos');
 Route::middleware(AutenticacaoMiddleware::class)->get('/cadastroProduto/{erro?}', 'ProdutoController@indexViewCadastro')->name('cadastroProdutos');
 Route::middleware(AutenticacaoMiddleware::class)->get('/cadastroVenda/{erro?}', 'VendaController@indexViewCadastro')->name('cadastroVenda');
-Route::middleware(AutenticacaoMiddleware::class)->get('/venda/itens', 'VendaController@listarItens')->name('itensVenda');
 Route::middleware(AutenticacaoMiddleware::class)->get('/consultaTipos', 'TiposProdutoController@indexViewConsulta')->name('consultaTipos');
 Route::middleware(AutenticacaoMiddleware::class)->get('/consultaProdutos', 'ProdutoController@indexViewConsulta')->name('consultaProdutos');
 
-
 Route::middleware(AutenticacaoMiddleware::class)->get('/listarTipos', 'TiposProdutoController@listarTipos')->name('listarTipos');
-
+Route::middleware(AutenticacaoMiddleware::class)->get('/listarProdutos', 'ProdutoController@listarProdutos')->name('listarProdutos');
 Route::get('/venda/itens/{idVenda}', 'VendaController@listarItens')->name('itensVenda');
 
 
@@ -42,5 +40,5 @@ Route::post('/deletarItemVenda', 'VendaController@deletarItem')->name('deletarIt
 Route::post('/finalizarVenda', 'VendaController@finalizarVenda')->name('finalizarVenda');
 Route::post('/salvarEdicaoTipo', 'TiposProdutoController@salvarEdicao')->name('salvarEdicaoTipo');
 Route::post('/alterarStatusTipo', 'TiposProdutoController@alterarStatus')->name('alterarStatusTipo');
-
-
+Route::post('/salvarEdicaoProduto', 'ProdutoController@salvarEdicao')->name('salvarEdicaoProduto');
+Route::post('/alterarStatusProduto', 'ProdutoController@alterarStatus')->name('alterarStatusProduto');

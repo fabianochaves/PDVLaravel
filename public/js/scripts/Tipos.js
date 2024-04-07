@@ -77,7 +77,7 @@ vm = new Vue({
             form.append('novo_nome', novoNome);
             form.append('novo_imposto', novoImposto);
          
-            fetch(window.routes.salvarEdicaoTipo, {
+            fetch(window.routes.salvarEdicaoProduto, {
                 method: 'POST',
                 body: form,
                 headers: {
@@ -183,8 +183,6 @@ vm = new Vue({
             .catch(error => {
                 console.error(error);
             });
-
-
         },
     }
 });

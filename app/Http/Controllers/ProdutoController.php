@@ -40,6 +40,36 @@ class ProdutoController extends Controller
         return $produtos;
     }
 
+    
+    public function alterarStatus(Request $request)
+    {
+        $id_produto = $request->get('id_produto');
+        $novo_status = $request->get('novo_status');
+        $produto = Produtos::findOrFail($id_produto);
+        $produto->status_produto = $novo_status;
+        $produto->save();
+    
+        return response()->json(['message' => 'Status atualizado com sucesso', 'status' => 1]);
+    }
+
+    public function salvarEdicao(Request $request)
+    {
+        $id_produto = $request->get('id_produto');
+        $tipo_produto = $request->get('tipo_produto');
+        $nome_produto = $request->get('nome_produto');
+        $preco_venda_produto = $request->get('preco_venda_produto');
+        $preco_custo_produto = $request->get('preco_custo_produto');
+    
+        $produto = Produtos::findOrFail($id_produto);
+        $produto->nome_produto = $nome_produto;
+        $produto->tipo_produto = $tipo_produto;
+        $produto->preco_venda_produto = $preco_venda_produto;
+        $produto->preco_custo_produto = $preco_custo_produto;
+        $produto->save();
+
+        return response()->json(['message' => 'Produto atualizado com sucesso', 'status' => 1]);
+    }
+
     public function cadastrar(Request $request){
         
         $regras = [

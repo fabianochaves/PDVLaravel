@@ -111,10 +111,13 @@
                 deletarItemVenda: '{{ route("deletarItemVenda") }}',
                 finalizarVenda: '{{ route("finalizarVenda") }}',
                 salvarEdicaoTipo: '{{ route("salvarEdicaoTipo") }}',
+                salvarEdicaoProduto: '{{ route("salvarEdicaoProduto") }}',
                 alterarStatusTipo: '{{ route("alterarStatusTipo") }}',
-                listarTipos: '{{ route("listarTipos") }}'
-
+                alterarStatusProduto: '{{ route("alterarStatusProduto") }}',
+                listarTipos: '{{ route("listarTipos") }}',
+                listarProdutos: '{{ route("listarProdutos") }}'
             };
+
         </script>
         
         @yield('scripts')

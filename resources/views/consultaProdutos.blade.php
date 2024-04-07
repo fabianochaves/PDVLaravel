@@ -4,7 +4,6 @@
 @section('titulo', 'Consulta de Produtos')
 
 @section('conteudo')
-
 <body id="page-top">
 
     <!-- Page Wrapper -->
