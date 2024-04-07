@@ -44,6 +44,40 @@ vm = new Vue({
 
         abrirModalEdicao(produto) {
 
+
+
+
+            fetch(`/listarTipos`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao obter os Tipos de Produtos.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data)
+                data.forEach(function(tipo) {
+                    tipo.status_tipo_produto = tipo.status_tipo_produto == 1 ? "Ativo" : "Inativo";
+                    tipo.status_css = tipo.status_tipo_produto == "Ativo" ? "ativo" : "inativo";
+                });
+
+                vm.tiposProdutos = data;
+                setTimeout(() => {
+                    $('#dataTable').DataTable();
+
+                }, 500);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+
+
+
+
+
+
+
             var classe = "Tipos"
             var funcao = "listar"
 
