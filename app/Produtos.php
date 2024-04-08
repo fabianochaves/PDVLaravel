@@ -24,6 +24,13 @@ class Produtos extends Model
     {
         return $this->belongsTo(ItensVenda::class, 'cod_produto_venda', 'id_produto');
     }
+
+    public function tipoProduto()
+    {
+        return $this->belongsTo(Tipos::class, 'tipo_produto', 'id_tipo_produto');
+    }
+    
+
     
 
 }

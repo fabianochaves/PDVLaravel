@@ -30,13 +30,13 @@ class ProdutoController extends Controller
 
     public function indexViewConsulta(Request $request){
 
-        $produtos = Produtos::all();
+        $produtos = Produtos::with('tipoProduto')->get();
         return view('consultaProdutos', compact('produtos'));
     }
 
     public function listarProdutos()
     {
-        $produtos = Produtos::all();
+        $produtos = Produtos::with('tipoProduto')->get();
         return $produtos;
     }
 
