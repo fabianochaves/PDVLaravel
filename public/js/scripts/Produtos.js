@@ -44,7 +44,7 @@ vm = new Vue({
         },
 
         abrirModalEdicao(produto) {
-
+            console.log(produto)
             fetch(`/listarTipos`)
             .then(response => {
                 if (!response.ok) {
@@ -56,8 +56,9 @@ vm = new Vue({
               
                 const tipoOptions = data
                 .map((tipo) => {
-
-                    const selected = tipo.id_tipo_produto == produto.tipo_produto ? 'selected' : '';
+                  
+                    const selected = tipo.id_tipo_produto == produto.tipo_produto.id_tipo_produto ? 'selected' : '';
+                  
                     return `<option value="${tipo.id_tipo_produto}" ${selected}>${tipo.nome_tipo_produto}</option>`;
                 })
                 .join('');
