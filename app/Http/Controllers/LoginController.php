@@ -59,6 +59,6 @@ class LoginController extends Controller
         session_start();
         session_destroy();
 
-        return redirect()->route('viewLogin'); // Redirecionar para a tela de login
+        return redirect()->route('viewLogin');
     }
 }
