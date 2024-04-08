@@ -11,7 +11,7 @@ class DashboardController extends Controller
     public function buscaTotalVendasMes()
     {
         try {
-            $total = Venda::whereMonth('datetime_venda', '=', now()->month)
+            $total = Venda::whereMonth('datetime_venda', '=', now()->month)->where('status_venda', 1)
                         ->sum('valor_total_venda');
         } catch (\Exception $e) {
             throw new \Exception("Erro ao buscar o total de vendas do mês: " . $e->getMessage());
@@ -29,7 +29,7 @@ class DashboardController extends Controller
     public function buscaTotalVendasSemana()
     {
         try {
-            $total = Venda::where('datetime_venda', '>=', now()->subDays(7))
+            $total = Venda::where('datetime_venda', '>=', now()->subDays(7))->where('status_venda', 1)
                         ->sum('valor_total_venda');
         } catch (\Exception $e) {
             return response()->json(['error' => "Erro ao buscar o total de vendas dos últimos 7 dias: " . $e->getMessage()], 500);
@@ -49,7 +49,7 @@ class DashboardController extends Controller
     public function buscaTotalVendasHoje()
     {
         try {
-            $total = Venda::whereDate('datetime_venda', '=', now()->toDateString())
+            $total = Venda::whereDate('datetime_venda', '=', now()->toDateString())->where('status_venda', 1)
                         ->sum('valor_total_venda');
         } catch (\Exception $e) {
             return response()->json(['error' => "Erro ao buscar o total de vendas de hoje: " . $e->getMessage()], 500);
@@ -69,6 +69,7 @@ class DashboardController extends Controller
         try {
             $dadosVendasMesAMes = Venda::selectRaw('EXTRACT(MONTH FROM datetime_venda) as mes, SUM(valor_total_venda) as total')
                                     ->whereYear('datetime_venda', now()->year)
+                                    ->where('status_venda', 1)
                                     ->groupBy('mes')
                                     ->get();
         } catch (\Exception $e) {

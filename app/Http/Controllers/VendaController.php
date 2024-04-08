@@ -29,12 +29,12 @@ class VendaController extends Controller
         return view('cadastroVenda', ['msg_status' => $msg, 'produtos' => $produtos]);
     }
 
-    public function indexViewConsulta(Request $request){
-
-        $vendas = Venda::all();
+    public function indexViewConsulta(Request $request)
+    {
+        $vendas = Venda::where('status_venda', 1)->get();
         return view('consultaVendas', compact('vendas'));
     }
-
+    
     public function obterPrecos(Request $request)
     {
         $produtoId = $request->produto_id;
@@ -63,7 +63,7 @@ class VendaController extends Controller
 
     public function listarVendas()
     {
-        $vendas = Venda::all();
+        $vendas = Venda::where('status_venda', 1)->get();
         return response()->json($vendas);
     }
 
